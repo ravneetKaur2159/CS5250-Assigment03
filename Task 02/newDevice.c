@@ -50,7 +50,15 @@ ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos{
 }
 
 ssize_t onebyte_write(struct file *filep, const char *buf,size_t count, loff_t *f_pos){
-	/*please complete the function on your own*/
+	if(*f_pos == 0){
+		get_user(onebyte_data,buf);
+		*f_pos = *f_pos +1;
+		return 1; 
+	}
+	else{
+		//no more space : raise error
+		return -ENOSPC;
+	}
 }
 
 static int onebyte_init(void){
