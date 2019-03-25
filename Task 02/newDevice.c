@@ -39,7 +39,14 @@ int onebyte_release(struct inode *inode, struct file *filep){
 }
 
 ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos{
-	/*please complete the function on your own*/
+	if(*f_pos == 0){
+		put_user(buf,onebyte_data);
+		*f_pos = *f_pos +1;
+		return 1; // as device should only read 1 byte
+	}
+	else{
+		return 0;
+	}
 }
 
 ssize_t onebyte_write(struct file *filep, const char *buf,size_t count, loff_t *f_pos){
