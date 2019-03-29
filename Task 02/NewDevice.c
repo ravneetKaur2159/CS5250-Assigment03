@@ -41,7 +41,7 @@ int onebyte_release(struct inode *inode, struct file *filep)
 ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
 {
 	if(*f_pos == 0){
-		put_user(buf,onebyte_data);
+		copy_to_user(buf,onebyte_data,sizeof(char));
 		*f_pos = *f_pos +1;
 		return 1; // as device should only read 1 byte
 	}
@@ -53,7 +53,7 @@ ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
 ssize_t onebyte_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
 {
 	if(*f_pos == 0){
-		get_user(onebyte_data,buf);
+		copy_from_user(onebyte_data,buf, sizeof(char));
 		*f_pos = *f_pos +1;
 		return 1; 
 	}
